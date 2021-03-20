@@ -12,6 +12,7 @@ let speech = document.querySelector('#textarea')
 let result = document.querySelector('#textresult')
 let synonyms = document.querySelector('#synonyms')
 let example = document.querySelector('#example')
+let partofspeech = document.querySelector('#partsOfSpeech')
 let speak = window.SpeechRecognition || window.webkitSpeechRecognition;
 let recognition = new speak();
 let meaning
@@ -24,6 +25,7 @@ speech.addEventListener('click', () => {
         result.innerHTML = ''
         synonyms.innerHTML =''
         example.innerHTML = ''
+        partofspeech.innerHTML = ''
     }
 })
 
@@ -32,9 +34,24 @@ recognition.onresult = function (e) {
     let result2 = e.results[0][0].transcript 
     speech.innerHTML = result2
 
+    let item = result2
+    getWordMeaning(item)
+    .then(data => {
+      
+      // get the data we need for our html from the response   
+    meaning = data
+   let result5 = meaning[0].meanings[0].partOfSpeech
+   console.log(result5)
+   if(result5) {
+    partofspeech.innerHTML = result5
+   } 
+    })
+
 //    result.addEventListener('click', (event) => {
 //        event.preventDefault()
         
+
+
         let item1 = result2
         getWordMeaning(item1)
         .then(data => {
